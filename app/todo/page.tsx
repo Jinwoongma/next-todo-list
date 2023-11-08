@@ -1,6 +1,7 @@
 import Apis from "@/utils/serverConnector/apis";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
+import Header from "./components/Header";
 
 export default async function todo() {
   const { data, errorMsg } = await Apis.geTodoList();
@@ -11,8 +12,8 @@ export default async function todo() {
   console.log(data);
 
   return (
-    <main>
-      <h1>할 일 목록</h1>
+    <main className="max-w-lg mx-auto max-h-[640px]">
+      <Header />
       <TodoInput />
       <TodoList todos={data} />
     </main>
