@@ -10,7 +10,7 @@ interface FetchOptions {
   params?: Record<string, string>;
 }
 
-// 커넥터는 서버 응답을 처리하는 제네릭 함수입니다.
+// 서버 응답을 처리하는 제네릭 함수
 const connector = async <T>({
   url,
   config,
@@ -34,7 +34,7 @@ const connector = async <T>({
 };
 
 const ApiConnector = {
-  // GET 요청에 대한 커넥터 함수입니다.
+  // GET 요청에 대한 커넥터 함수
   get: async <T>({
     url,
     config,
@@ -53,6 +53,7 @@ const ApiConnector = {
 
     return connector<T>({ url: `${url}${queryString}`, config: fullConfig });
   },
+  // POST 요청에 대한 커넥터 함수
   post: async <T>({
     url,
     data,
@@ -70,13 +71,31 @@ const ApiConnector = {
 
     return connector<T>({ url, config: fullConfig });
   },
-
+  // DELETE 요청에 대한 커넥터 함수
   delete: async <T>({
     url,
     config,
   }: FetchOptions): Promise<ServerResponse<T>> => {
     const fullConfig: RequestInit = {
       method: "DELETE",
+      ...config,
+    };
+
+    return connector<T>({ url, config: fullConfig });
+  },
+  // PATCH 요청에 대한 커넥터 함수
+  patch: async <T>({
+    url,
+    data,
+    config,
+  }: FetchOptions): Promise<ServerResponse<T>> => {
+    const fullConfig: RequestInit = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        ...config?.headers,
+      },
+      body: JSON.stringify(data),
       ...config,
     };
 

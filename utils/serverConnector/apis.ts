@@ -16,9 +16,6 @@ const Apis = {
     return ApiConnector.post<TodoInfo>({
       url: `todos.json`,
       config: {
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify(newTodo),
       },
     });
@@ -28,6 +25,18 @@ const Apis = {
     return ApiConnector.delete<string>({
       url: `todos/${selectedId}.json`,
       config: {},
+    });
+  },
+
+  doUpdateTodo: (
+    selectedId: string,
+    partialUpdateData: object
+  ): Promise<ServerResponse<TodoInfo>> => {
+    return ApiConnector.patch<TodoInfo>({
+      url: `todos/${selectedId}.json`,
+      config: {
+        body: JSON.stringify(partialUpdateData),
+      },
     });
   },
 };

@@ -38,7 +38,6 @@ export default function TodoInput() {
       });
 
       if (!errorMsg) {
-        // POST 요청이 성공적으로 완료된 후, 페이지를 새로고침합니다.
         setInputValue("");
         router.refresh();
       }
