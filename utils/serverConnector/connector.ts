@@ -5,8 +5,9 @@ const API_BASE_URL = firebaseConfig.databaseURL;
 
 interface FetchOptions {
   url: string;
+  data?: Object;
   config?: RequestInit;
-  params?: Record<string, unknown>;
+  params?: Record<string, string>;
 }
 
 // 커넥터는 서버 응답을 처리하는 제네릭 함수입니다.
@@ -41,7 +42,7 @@ const ApiConnector = {
   }: FetchOptions): Promise<ServerResponse<T>> => {
     let queryString = "";
     if (params) {
-      const searchParams = new URLSearchParams(params as any);
+      const searchParams = new URLSearchParams(params);
       queryString = `?${searchParams}`;
     }
 
@@ -52,8 +53,35 @@ const ApiConnector = {
 
     return connector<T>({ url: `${url}${queryString}`, config: fullConfig });
   },
-  // 다른 HTTP 메서드 (POST, PATCH, DELETE)에 대한 커넥터도 여기에 추가할 수 있습니다.
-  // ...
+  post: async <T>({
+    url,
+    data,
+    config,
+  }: FetchOptions): Promise<ServerResponse<T>> => {
+    const fullConfig: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...config?.headers,
+      },
+      body: JSON.stringify(data),
+      ...config,
+    };
+
+    return connector<T>({ url, config: fullConfig });
+  },
+
+  delete: async <T>({
+    url,
+    config,
+  }: FetchOptions): Promise<ServerResponse<T>> => {
+    const fullConfig: RequestInit = {
+      method: "DELETE",
+      ...config,
+    };
+
+    return connector<T>({ url, config: fullConfig });
+  },
 };
 
 export default ApiConnector;

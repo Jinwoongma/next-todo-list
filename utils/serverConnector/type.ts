@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export type ServerResponse<T> = {
   status: number;
   data: T | null;
@@ -7,6 +9,7 @@ export type ServerResponse<T> = {
 export interface TodoInfo {
   completed: boolean;
   content: string;
+  createTime: Date;
 }
 
 export interface Todos {
