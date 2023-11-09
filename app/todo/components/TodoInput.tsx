@@ -6,7 +6,7 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import TodoInputButton from "./TodoInputButton";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function TodoInput() {
   const [inputValue, setInputValue] = useState<string>("");

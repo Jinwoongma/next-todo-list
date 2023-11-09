@@ -6,7 +6,6 @@ import Header from "./components/Header";
 export default async function todo() {
   const { data, errorMsg } = await Apis.geTodoList();
   if (errorMsg) return <div>에러 발생: {errorMsg}</div>;
-  // if (!data) return <div>로딩 중...</div>;
 
   console.log(data);
 
@@ -14,7 +13,9 @@ export default async function todo() {
     <main className="max-w-lg mx-auto max-h-[640px]">
       <Header />
       <TodoInput />
-      {data ? <TodoList todos={data} /> : null}
+      {data ? (
+        <TodoList todos={data} />
+      ) : null}
     </main>
   );
 }

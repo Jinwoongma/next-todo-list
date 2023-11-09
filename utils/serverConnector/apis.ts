@@ -16,12 +16,18 @@ const Apis = {
     return ApiConnector.post<TodoInfo>({
       url: `todos.json`,
       config: {
-        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newTodo),
       },
+    });
+  },
+
+  deleteTodo: (selectedId: string): Promise<ServerResponse<string>> => {
+    return ApiConnector.delete<string>({
+      url: `todos/${selectedId}.json`,
+      config: {},
     });
   },
 };

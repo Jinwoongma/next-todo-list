@@ -1,11 +1,29 @@
 "use client";
+import Apis from "@/utils/serverConnector/apis";
 import type { Todos } from "@/utils/serverConnector/type";
+import { useRouter } from "next/navigation";
 
 interface Props {
   todos: Todos;
 }
 
 export default function TodoList({ todos }: Props) {
+  const router = useRouter();
+
+  const handleDeleteTodo = async (todoId: string) => {
+    try {
+      const { errorMsg } = await Apis.deleteTodo(todoId);
+      if (errorMsg) {
+        console.error("Error deleting todo:", errorMsg);
+      } else {
+        console.log(`Todo with id ${todoId} deleted`);
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
+  };
+
   // Todo 리스트 출력 로직
   return (
     <div className="mt-6">
@@ -26,6 +44,12 @@ export default function TodoList({ todos }: Props) {
             >
               {todo.completed ? "완료" : "미완료"}
             </span>
+            <button
+              onClick={() => handleDeleteTodo(key)}
+              className="flex-none bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+            >
+              삭제
+            </button>
           </li>
         ))}
       </ul>
