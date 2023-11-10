@@ -1,5 +1,7 @@
 "use client";
 
+import IconButton from "@/components/IconButton";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 
 export default function TodoInputButton({
@@ -8,11 +10,11 @@ export default function TodoInputButton({
   handleOnClick: () => void;
 }) {
   return (
-    <button
-      className="bg-sky-500 w-1/12 border text-white rounded-md text-2xl"
+    <IconButton
       onClick={handleOnClick}
-    >
-      +
-    </button>
+      icon={faPlus}
+      iconClassName="text-white"
+      buttonClassName="bg-sky-500 hover:bg-sky-700 w-1/12 border rounded-sm"
+    ></IconButton>
   );
 }

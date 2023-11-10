@@ -1,12 +1,10 @@
 "use client";
 
-import Apis from "@/utils/serverConnector/apis";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import TodoInputButton from "./TodoInputButton";
-import { useRouter } from "next/navigation";
 import { useTodos } from "@/contexts/todoContext";
 
 export default function TodoInput() {
