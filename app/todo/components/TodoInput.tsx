@@ -4,46 +4,18 @@ import Apis from "@/utils/serverConnector/apis";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TodoInputButton from "./TodoInputButton";
 import { useRouter } from "next/navigation";
+import { useTodos } from "@/contexts/todoContext";
 
 export default function TodoInput() {
   const [inputValue, setInputValue] = useState<string>("");
-  const [todos, setTodos] = useState<Object>({});
-  const router = useRouter();
-
-  useEffect(() => {
-    // Todo 리스트를 가져오는 함수
-    const fetchTodos = async () => {
-      const { data, errorMsg } = await Apis.geTodoList();
-      if (errorMsg) {
-        console.error("Error fetching todos:", errorMsg);
-        setTodos({});
-      } else {
-        setTodos(data || {});
-      }
-    };
-    fetchTodos();
-  }, []);
-
+  const { todos, addTodo } = useTodos();
+  
   const handleAddTodo = async (todoText: string) => {
-    if (!inputValue.trim()) return;
-
-    try {
-      const { data, errorMsg } = await Apis.addTodo({
-        content: todoText,
-        completed: false,
-        createTime: new Date(),
-      });
-
-      if (!errorMsg) {
-        setInputValue("");
-        router.refresh();
-      }
-    } catch (error) {
-      console.error("Error adding todo:", error);
-    }
+    await addTodo(todoText);
+    setInputValue("");
   };
 
   return (

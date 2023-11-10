@@ -2,7 +2,7 @@ import ApiConnector from "@/utils/serverConnector/connector";
 import { ServerResponse, TodoInfo, Todos } from "@/utils/serverConnector/type";
 
 const Apis = {
-  geTodoList: (): Promise<ServerResponse<Todos>> => {
+  getTodoList: (): Promise<ServerResponse<Todos>> => {
     return ApiConnector.get<Todos>({
       url: `todos.json`,
       config: { cache: "no-cache" },
@@ -28,7 +28,7 @@ const Apis = {
     });
   },
 
-  doUpdateTodo: (
+  updateTodo: (
     selectedId: string,
     partialUpdateData: object
   ): Promise<ServerResponse<TodoInfo>> => {
