@@ -7,7 +7,7 @@ export default function TodoList() {
   const { todos } = useTodos();
 
   return (
-    <div className="pt-6">
+    <div className="pt-2">
       <ul className="list-disc">
         {Object.entries(todos).map(([key, todo]) => (
           <TodoListItem key={key} id={key} todo={todo} />

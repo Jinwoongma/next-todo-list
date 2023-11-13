@@ -43,7 +43,7 @@ export default function TodoList({ id, todo }: { id: string; todo: TodoInfo }) {
 
   return (
     <li
-      className="flex items-center space-x-3 border-b-[0.5px] border-gray-300 "
+      className="flex items-center space-x-3 border-b-[0.5px] border-gray-300 h-[48.5px]"
       ref={confirmRef}
     >
       <span
@@ -54,32 +54,37 @@ export default function TodoList({ id, todo }: { id: string; todo: TodoInfo }) {
       >
         {todo.content}
       </span>
-      <div className="flex-none w-1/12 py-2">
-        {showConfirm ? (
-          <IconButton
-            onClick={() => handleConfirmDelete(id)}
-            icon={faMinus}
-            iconClassName="text-white"
-            buttonClassName="w-full h-full bg-red-500"
-          ></IconButton>
-        ) : (
-          <>
-            <IconButton
-              onClick={() => toggleCompleteTodo(id, !todo.completed)}
-              icon={todo.completed ? faArrowRotateLeft : faCheck}
-              iconClassName={
-                todo.completed
-                  ? "text-slate-500 hover:text-slate-700 w-[20px]"
-                  : "text-green-500 hover:text-green-700 w-[20px]"
-              }
-            />
-            <IconButton
-              onClick={() => handleDeleteClick()}
-              icon={faTrashCan}
-              iconClassName="text-red-500 hover:text-red-700 w-[20px]"
-            />
-          </>
-        )}
+      <div className="flex-none w-1/12 h-full relative">
+        <div className="flex justify-center">
+          {!showConfirm && (
+            <>
+              <IconButton
+                onClick={() => toggleCompleteTodo(id, !todo.completed)}
+                icon={todo.completed ? faArrowRotateLeft : faCheck}
+                iconClassName={
+                  todo.completed
+                    ? "text-slate-500 hover:text-slate-700 w-[20px]"
+                    : "text-green-500 hover:text-green-700 w-[20px]"
+                }
+                buttonClassName="py-2"
+              />
+              <IconButton
+                onClick={() => handleDeleteClick()}
+                icon={faTrashCan}
+                iconClassName="text-red-500 hover:text-red-700 w-[20px]"
+                buttonClassName="py-2"
+              />
+            </>
+          )}
+        </div>
+        <IconButton
+          onClick={() => handleConfirmDelete(id)}
+          icon={faMinus}
+          iconClassName="text-white"
+          buttonClassName={`absolute top-0 right-0 w-full h-full bg-red-500 transition-opacity duration-200 ${
+            showConfirm ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+        />
       </div>
     </li>
   );

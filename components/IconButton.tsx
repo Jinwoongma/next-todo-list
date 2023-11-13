@@ -4,7 +4,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
-export default function Button({
+export default function IconButton({
   onClick,
   icon,
   iconClassName,
@@ -16,10 +16,13 @@ export default function Button({
   buttonClassName?: string;
 }) {
   return (
-    <button onClick={onClick} className={buttonClassName}>
+    <button
+      onClick={onClick}
+      className={`${buttonClassName} flex items-center justify-center flex-nowrap`}
+    >
       <FontAwesomeIcon
         icon={icon as IconProp}
-        className={`${iconClassName} py-1 px-2`}
+        className={`${iconClassName} text-xs py-2`}
       />
     </button>
   );
