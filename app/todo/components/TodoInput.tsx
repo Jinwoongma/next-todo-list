@@ -3,17 +3,24 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useState, KeyboardEvent } from "react";
 import TodoInputButton from "./TodoInputButton";
-import { useTodos } from "@/contexts/todoContext";
+import { TodosContextType, useTodos } from "@/contexts/todoContext";
 
 export default function TodoInput() {
   const [inputValue, setInputValue] = useState<string>("");
-  const { todos, addTodo } = useTodos();
-  
+  const { todos, addTodo } = useTodos() as TodosContextType;
+
   const handleAddTodo = async (todoText: string) => {
     await addTodo(todoText);
     setInputValue("");
+  };
+
+  const handleKeyEnter = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      await addTodo(inputValue);
+      setInputValue("");
+    }
   };
 
   return (
@@ -34,6 +41,7 @@ export default function TodoInput() {
           type="text"
           name="search"
           onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyEnter}
           value={inputValue}
         />
       </label>

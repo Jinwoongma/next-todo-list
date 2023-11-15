@@ -1,6 +1,6 @@
 "use client";
 
-import { useTodos } from "@/contexts/todoContext";
+import { TodosContextType, useTodos } from "@/contexts/todoContext";
 import {
   faTrashCan,
   faArrowRotateLeft,
@@ -12,7 +12,8 @@ import { useEffect, useRef, useState } from "react";
 import { TodoInfo } from "@/utils/serverConnector/type";
 
 export default function TodoList({ id, todo }: { id: string; todo: TodoInfo }) {
-  const { todos, toggleCompleteTodo, deleteTodo } = useTodos();
+  const { todos, toggleCompleteTodo, deleteTodo } =
+    useTodos() as TodosContextType;
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const confirmRef = useRef<HTMLLIElement>(null);
 
@@ -43,19 +44,19 @@ export default function TodoList({ id, todo }: { id: string; todo: TodoInfo }) {
 
   return (
     <li
-      className="flex items-center space-x-3 border-b-[0.5px] border-gray-300 h-[48.5px]"
+      className="flex items-center space-x-3 border-b-[0.5px] border-gray-300 min-h-[48px] overflow-hidden"
       ref={confirmRef}
     >
       <span
-        className={`flex-grow w-11/12 break-words ${
+        className={`flex-grow w-11/12 break-words py-[12px] ${
           todo.completed ? "italic line-through text-gray-500" : "text-gray-700"
         }`}
         style={{ minWidth: 0 }}
       >
         {todo.content}
       </span>
-      <div className="flex-none w-1/12 h-full relative">
-        <div className="flex justify-center">
+      <div className="flex-none w-1/12 relative self-stretch">
+        <div className="flex items-center justify-center h-full">
           {!showConfirm && (
             <>
               <IconButton
@@ -66,13 +67,11 @@ export default function TodoList({ id, todo }: { id: string; todo: TodoInfo }) {
                     ? "text-slate-500 hover:text-slate-700 w-[20px]"
                     : "text-green-500 hover:text-green-700 w-[20px]"
                 }
-                buttonClassName="py-2"
               />
               <IconButton
                 onClick={() => handleDeleteClick()}
                 icon={faTrashCan}
                 iconClassName="text-red-500 hover:text-red-700 w-[20px]"
-                buttonClassName="py-2"
               />
             </>
           )}
